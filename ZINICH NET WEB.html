@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-site-verification" content="GBA7HnV5okD3VVsnFpEALv7FLWnzKY1ofgn-LtZYfxQ" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZINICH WEB - Next-Gen Network Solutions</title>
+    <style>
+        :root {
+            --primary: #6e00ff;
+            --secondary: #00ff88;
+            --dark: #0f0f1a;
+            --light: #f5f5ff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+        
+        /* 3D Scrolling Container */
+        .scroll-container {
+            height: 100vh;
+            overflow-y: auto;
+            scroll-snap-type: y mandatory;
+            transform-style: preserve-3d;
+        }
+        
+        section {
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+            padding: 0 10%;
+        }
+        
+        /* Parallax Background */
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, var(--primary) 0%, transparent 70%);
+            opacity: 0.3;
+            z-index: -1;
+            transform: translateZ(-50px) scale(2);
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(15, 15, 26, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            flex-direction: column;
+            text-align: center;
+            gap: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transform: translateZ(20px);
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            transform: translateZ(10px);
+        }
+        
+        .cta-button {
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 50px;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.3s;
+            transform: translateZ(30px);
+        }
+        
+        .cta-button:hover {
+            transform: translateZ(30px) scale(1.05);
+            box-shadow: 0 0 30px rgba(110, 0, 255, 0.5);
+        }
+        
+        /* Services Section */
+        .services {
+            flex-direction: column;
+            gap: 3rem;
+        }
+        
+        .services h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            transform: translateZ(20px);
+        }
+        
+        .service-cards {
+            display: flex;
+            gap: 2rem;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 300px;
+            transition: 0.5s;
+            transform-style: preserve-3d;
+        }
+        
+        .service-card:hover {
+            transform: translateZ(20px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        /* About Section */
+        .about {
+            gap: 5rem;
+        }
+        
+        .about-content {
+            flex: 1;
+            transform: translateZ(20px);
+        }
+        
+        .about h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+        }
+        
+        .about-image {
+            flex: 1;
+            position: relative;
+            transform: translateZ(30px);
+        }
+        
+        .about-image::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--secondary);
+            border-radius: 20px;
+            top: -20px;
+            left: -20px;
+            z-index: -1;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.2);
+        }
+        
+        /* Contact Section */
+        .contact {
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .contact h2 {
+            font-size: 3rem;
+            transform: translateZ(20px);
+        }
+        
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            max-width: 600px;
+            transform: translateZ(10px);
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 1rem;
+        }
+        
+        .contact-form textarea {
+            min-height: 150px;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 2rem 10%;
+            text-align: center;
+            background: rgba(15, 15, 26, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+        
+        /* 3D Animation Effects */
+        @keyframes float {
+            0%, 100% { transform: translateZ(0) translateY(0); }
+            50% { transform: translateZ(10px) translateY(-20px); }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-container">
+        <nav>
+            <div class="logo">ZINICH NET WEB</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+        
+        <section id="home" class="hero">
+            <div class="parallax-bg"></div>
+            <h1 class="floating">Next-Gen Network Solutions</h1>
+            <p>Revolutionizing connectivity with cutting-edge technology and unparalleled service</p>
+            <button class="cta-button">Get Started</button>
+        </section>
+        
+        <section id="services" class="services">
+            <h2>Our Services</h2>
+            <div class="service-cards">
+                <div class="service-card">
+                    <h3>Enterprise Networking</h3>
+                    <p>Custom network solutions for businesses of all sizes with 99.99% uptime guarantee.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Cloud Infrastructure</h3>
+                    <p>Scalable cloud solutions with military-grade security and global availability.</p>
+                </div>
+                <div class="service-card">
+                    <h3>5G Implementation</h3>
+                    <p>Future-proof your business with our ultra-low latency 5G network solutions.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="about" class="about">
+            <div class="about-content">
+                <h2>About ZINICH WEB</h2>
+                <p>Founded in 2025, ZINICH WEB has grown from a regional ISP to a global network infrastructure leader. Our team of 200+ engineers delivers innovative solutions to Fortune 500 companies and startups alike.</p>
+                <p>We pride ourselves on pushing technological boundaries while maintaining exceptional customer service standards.</p>
+            </div>
+            <div class="about-image floating">
+                <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Network Operations Center">
+            </div>
+        </section>
+        
+        <section id="contact" class="contact">
+            <h2>Get In Touch</h2>
+            <form class="contact-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <input type="text" placeholder="Subject">
+                <textarea placeholder="Your Message" required></textarea>
+                <button type="submit" class="cta-button">Send Message</button>
+            </form>
+        </section>
+        
+        <footer>
+            <div class="logo">ZINICH WEB</div>
+            <div class="social-links">
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+            </div>
+            <p>&copy; 2025 ZINICH WEB. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // 3D Scroll Effects
+        document.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            const scrollContainer = document.querySelector('.scroll-container');
+            
+            // Parallax effect
+            document.querySelectorAll('.parallax-bg').forEach(bg => {
+                bg.style.transform = `translateZ(-50px) scale(2) translateY(${scrollPosition * 0.2}px)`;
+            });
+            
+            // 3D tilt effect
+            scrollContainer.style.transform = `rotateX(${scrollPosition * 0.05}deg)`;
+            
+            // Service card rotation on hover
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                    const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                    card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateZ(20px)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateZ(0)';
+                });
+            });
+        });
+        
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
